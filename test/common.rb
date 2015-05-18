@@ -220,12 +220,13 @@ module CommonTests
 
     year        = Time.now.year
     month       = Time.now.month
+    day         = Time.now.day
 
     invoice     = @fastly.get_invoice(year, month)
     assert_equal Fastly::Invoice,  invoice.class
     assert_equal year,  invoice.start.year
     assert_equal month, invoice.start.month
-    assert_equal 1,     invoice.start.day
+    assert_equal day,   invoice.start.day
     assert_equal year,  invoice.end.year
     assert_equal month, invoice.end.month
     @fastly.delete_service(service)
