@@ -85,6 +85,11 @@ class Fastly
     client.post("/purge/#{path}")
   end
 
+  # Soft-purge the specified path from your cache.
+  def soft_purge(path)
+    client.post("/purge/#{path}", {}, {"Fastly-Soft-Purge" => "1"})
+  end
+
   # Fetches historical stats for each of your fastly services and groups the results by service id.
   #
   # If you pass in a :field opt then fetches only the specified field.

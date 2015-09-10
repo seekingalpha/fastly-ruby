@@ -68,12 +68,12 @@ class Fastly
       end
     end
 
-    def post(path, params = {})
-      post_and_put(:post, path, params)
+    def post(*args)
+      post_and_put(:post, *args)
     end
 
-    def put(path, params = {})
-      post_and_put(:put, path, params)
+    def put(*args)
+      post_and_put(:put, *args)
     end
 
     def delete(path)
@@ -83,9 +83,9 @@ class Fastly
 
     private
 
-    def post_and_put(method, path, params = {})
+    def post_and_put(method, path, params = {}, extra_headers = {})
       query = make_params(params)
-      resp  = http.send(method, path, query, headers.merge('Content-Type' =>  'application/x-www-form-urlencoded'))
+      resp  = http.send(method, path, query, headers.merge('Content-Type' =>  'application/x-www-form-urlencoded').merge(extra_headers))
       fail Error, resp.body unless resp.kind_of?(Net::HTTPSuccess)
       JSON.parse(resp.body)
     end

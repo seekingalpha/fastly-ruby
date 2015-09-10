@@ -74,6 +74,12 @@ class Fastly
       fetcher.client.post("#{Service.get_path(id)}/purge/#{key}")
     end
 
+    # Soft-purge anything with the specific key from the given service.
+    def soft_purge_by_key(key)
+      require_api_key!
+      fetcher.client.post("#{Service.get_path(id)}/purge/#{key}", {}, {"Fastly-Soft-Purge" => "1"})
+    end
+
     # Get a sorted array of all the versions that this service has had.
     def versions
       @versions.map { |v| Version.new(v, fetcher) }.sort { |a, b| a.number.to_i <=> b.number.to_i }
