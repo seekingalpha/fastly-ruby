@@ -17,6 +17,8 @@ class Fastly
       uri       = URI.parse(base)
       ssl       = uri.is_a? URI::HTTPS  # detect if we should pass `use_ssl`
       @http     = Net::HTTP.start(uri.host, uri.port, use_ssl: ssl)
+      @http.open_timeout = opts.fetch(:open_timeout, @http.open_timeout)
+      @http.read_timeout = opts.fetch(:read_timeout, @http.read_timeout)
 
       return self unless fully_authed?
 
